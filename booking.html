@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Booking — Someone to Talk</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Booking</h1>
+    <p>Isi form ini lalu pilih "Kirim via WhatsApp" — chat otomatis akan terbuka.</p>
+  </header>
+
+  <div class="container">
+    <div class="form-wrap">
+      <div style="text-align:center;margin-bottom:12px">
+        <img src="images/kira.jpeg" alt="booking" style="width:70%;max-width:420px;border-radius:10px">
+      </div>
+
+      <div class="form-row">
+        <div style="flex:1">
+          <label>Nama</label>
+          <input id="name" class="input" type="text" placeholder="Nama kamu">
+        </div>
+        <div style="flex:1">
+          <label>Kontak (WA/Email)</label>
+          <input id="contact" class="input" type="text" placeholder="0812xxxx">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div style="flex:1">
+          <label>Paket</label>
+          <select id="package" class="input">
+            <option>Sweet Chat</option>
+            <option>Virtual Meow Talk</option>
+            <option>Roleplay Mood</option>
+            <option>Special Care</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <label>Tanggal</label>
+          <input id="date" class="input" type="date">
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px">
+        <label>Catatan / Preferensi</label>
+        <textarea id="note" class="input" rows="4" placeholder="Topik, karakter, jam favorit..."></textarea>
+      </div>
+
+      <div style="text-align:center">
+        <a class="btn-detail" id="waBtn">Kirim via WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer small">WhatsApp: +62 813-2673-1034 (viee) — click to chat</footer>
+
+<script>
+(function(){
+  // nomor WA kamu (format internasional tanpa +)
+  const WA_NUMBER = "6281326731034";
+
+  // kalau ada ?paket=... di URL, prefill paket
+  function getQueryParam(name){
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    const p = getQueryParam('paket');
+    if(p){ document.getElementById('package').value = decodeURIComponent(p); }
+  });
+
+  document.getElementById('waBtn').addEventListener('click', function(){
+    const name = document.getElementById('name').value || "-";
+    const contact = document.getElementById('contact').value || "-";
+    const paket = document.getElementById('package').value || "-";
+    const date = document.getElementById('date').value || "-";
+    const note = document.getElementById('note').value || "-";
+
+    // bikin pesan (encoded)
+    const message =
+      "Halo! Aku mau pesan layanan Someone to Talk 💌%0A" +
+      "Nama: " + encodeURIComponent(name) + "%0A" +
+      "Kontak: " + encodeURIComponent(contact) + "%0A" +
+      "Paket: " + encodeURIComponent(paket) + "%0A" +
+      "Tanggal: " + encodeURIComponent(date) + "%0A" +
+      "Catatan: " + encodeURIComponent(note);
+
+    const waUrl = "https://wa.me/" + WA_NUMBER + "?text=" + message;
+    window.open(waUrl, "_blank");
+  });
+})();
+</script>
+
+</body>
+</html>
